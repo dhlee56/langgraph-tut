@@ -24,28 +24,28 @@ def classify_intent(state: State):
     structured_llm =llm.with_structured_output(IntentClassifier)
 
     result = structured_llm.invoke([
-        {'role': 'system', 'content': 'Determin / classify whether the user wants to chat, ask for knowledge, or change code in the project. Respond with only one of the following: "chat", "knowledge", or "code".'},
+        {'role': 'system', 'content': 'Determine / classify whether the user wants to chat("chat"), retrieve knowledge("knowledge"), or change code in the project("code").'},
         {'role': 'user', 'content': state['messages'][-1].content}
     ])
 
     return {'message_intent': result.message_intent}
 
 def prompt_llm_chat(state: State):
-    messages = [{'role': 'system', 'content': 'You are a helpful assistant, but talkative. Be nice'}] + state['messages']
+    messages = [{'role': 'system', 'content': 'You are a talkative chatbot for fun. Be nice'}] + state['messages']
 
     response = llm.invoke(messages)
     
     return {'messages': [{'role': 'assistant', 'content': response.content}]}
 
 def prompt_llm_rag(state: State):
-    messages = [{'role': 'system', 'content': 'No matter what the user says, always say "I am a RAG agent"'}] + state['messages']
+    messages = [{'role': 'system', 'content': 'No matter what the user says, always say "I am the RAG agent"'}] + state['messages']
 
     response = llm.invoke(messages)
     
     return {'messages': [{'role': 'assistant', 'content': response.content}]}
 
 def prompt_llm_code(state: State):
-    messages = [{'role': 'system', 'content': 'No matter what the user says, always say "I am a CODING agent"'}] + state['messages']
+    messages = [{'role': 'system', 'content': 'No matter what the user says, always say "I am the CODING agent"'}] + state['messages']
 
     response = llm.invoke(messages)
     
